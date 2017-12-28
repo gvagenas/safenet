@@ -8,17 +8,17 @@ app = Flask(__name__)
 
 @app.route('/about')
 def about():
-    return  'SafeNet REST API. Use /alert?location=[your_location] Endpoint to create new Alarm '
+    return  'SafeNet REST API. Use /alarm?location=[your_location] Endpoint to create new Alarm '
 
-@app.route('/alert')
+@app.route('/alarm')
 def alert():
     location = request.args.get('location')
-    logger.info("New Alert request for location %s", location)
+    logger.info("New Alarm request for location %s", location)
 
     numOfPeople = handle_mac_addr.get_macs_for_location(location)
     handle_emergency.raise_alarm(location, numOfPeople)
 
-    msg = ("Alert received for location \"%s\" where there are %s people, will handle emergency" % (location, numOfPeople))
+    msg = ("Alarm received for location \"%s\" where there are %s people, will handle emergency" % (location, numOfPeople))
     return msg
 
 def start_restapi():
